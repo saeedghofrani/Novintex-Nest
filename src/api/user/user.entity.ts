@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -11,8 +12,8 @@ export class User {
     @Column({ type: 'varchar', length: 120 })
     public email: string;
 
-    @Column({ type: 'boolean', default: false })
-    public isDeleted: boolean;
+    @Exclude({ toPlainOnly: true })
+    password: string;
 
     /*
      * Create and Update Date Columns
@@ -23,4 +24,19 @@ export class User {
 
     @UpdateDateColumn({ type: 'timestamp' })
     public updatedAt!: Date;
+
+    constructor(partial: Partial<User>) {
+        Object.assign(this, partial);
+    }
 }
+
+// import { Task } from '../task/task.entity';
+// import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+
+
+
+//   @OneToMany((type) => Task, (task) => task.user)
+//   tasks: Task[];
+
+
+// }
