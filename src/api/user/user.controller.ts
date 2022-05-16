@@ -1,20 +1,44 @@
-import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { CreateUserDto } from './user.dto';
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Put,
+    Req,
+    UseInterceptors,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { UpdateUserDto } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
+@ApiTags('User')
+@ApiBearerAuth('access-token')
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 export class UserController {
-    @Inject(UserService)
-    private readonly service: UserService;
+    constructor(private readonly userService: UserService) { }
 
-    @Get(':id')
-    public getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
-        return this.service.getUser(id);
+    @Get()
+    async getUserInfo(@Req() request: Request): Promise<User> {
+        return request.res.locals.user;
     }
 
-    @Post()
-    public createUser(@Body() body: CreateUserDto): Promise<User> {
-        return this.service.createUser(body);
+    @Put()
+    async updateUserProfile(
+        @Req() request: Request,
+        @Body() body: UpdateUserDto,
+    ): Promise<User> {
+        const user: User = request.res.locals.user;
+        const newUserInfo: User = await this.userService.updateUserInfo(user, body);
+        return newUserInfo;
+    }
+
+    @Delete()
+    async deleteAccount(@Req() request: Request): Promise<void> {
+        const user: User = request.res.locals.user;
+        await this.userService.deleteAccount(user);
     }
 }
