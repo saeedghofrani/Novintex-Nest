@@ -11,24 +11,22 @@ async function bootstrap() {
   const port: number = config.get<number>('PORT');
 
   const configSwagger = new DocumentBuilder()
+    .addBearerAuth({ type: 'http', scheme: 'bearer' }, 'access-token')
     .setTitle('Novintex')
     .setDescription('The Project structure API description')
     .setVersion('1.0')
     .build();
-  const options: SwaggerDocumentOptions = {
-    operationIdFactory: (
-      controllerKey: string,
-      methodKey: string
-    ) => methodKey
-  };
-  const document = SwaggerModule.createDocument(app, configSwagger, options);
-  SwaggerModule.setup('api', app, document);
+
+
+  const document = SwaggerModule.createDocument(app, configSwagger);
+  SwaggerModule.setup('docs', app, document);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   await app.listen(port, () => {
     console.log('[WEB]', config.get<string>('BASE_URL'));
   });
+  
 }
 
 bootstrap();
