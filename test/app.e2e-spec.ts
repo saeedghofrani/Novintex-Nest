@@ -6,7 +6,7 @@ import { AppModule } from './../src/app.module';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -15,10 +15,36 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it('Registration: /auth/signup (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'test',
+        username: 'test',
+      });
+
+    expect(response.status).toBe(201);
+  });
+
+  it('Login: /auth/login (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        password: 'test',
+        username: 'test',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        token: expect.any(String),
+      }),
+    );
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });
+
