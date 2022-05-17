@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Task } from '../task/task.entity';
 
 @Entity()
 export class UserNoin {
@@ -25,6 +26,10 @@ export class UserNoin {
 
     @UpdateDateColumn({ type: 'timestamp' })
     public updatedAt!: Date;
+
+
+    @OneToMany((type) => Task, (task) => task.user)
+    tasks: Task[];
 
     constructor(partial: Partial<UserNoin>) {
         Object.assign(this, partial);
