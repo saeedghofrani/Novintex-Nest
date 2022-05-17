@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../user/user.entity';
+import { UserNoin } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 
@@ -25,7 +25,7 @@ export class AuthorizationMiddleware implements NestMiddleware {
     if (!token) throw new UnauthorizedException('Token required.');
     const userId: number = await this.authService.keyv.get(token);
     if (!userId) throw new UnauthorizedException('Token expired.');
-    const user: User = await this.userService.findOneUser(userId, undefined);
+    const user: UserNoin = await this.userService.findOneUser(userId, undefined);
     if (!user) throw new UnauthorizedException();
     req.res.locals.user = user;
     req.res.locals.token = token;

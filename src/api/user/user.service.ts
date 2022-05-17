@@ -2,22 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
-import { User } from './user.entity';
+import { UserNoin } from './user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(UserNoin) private userRepository: Repository<UserNoin>,
   ) { }
 
-  async findAllUsers(): Promise<User[]> {
+  async findAllUsers(): Promise<UserNoin[]> {
     return await this.userRepository.find();
   }
 
   async findOneUser(
     id: number | null,
     name: string | undefined,
-  ): Promise<User> {
+  ): Promise<UserNoin> {
     if (id) {
       return await this.userRepository.findOne({ where: { id } });
     } else if (name) {
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   async createUser(body: CreateUserDto): Promise<void> {
-    const newUser: User = await this.userRepository.create({
+    const newUser: UserNoin = await this.userRepository.create({
       name: body.name,
       password: body.password,
       email: body.email,
@@ -36,7 +36,7 @@ export class UserService {
     await this.userRepository.save(newUser);
   }
 
-  async updateUserInfo(user: User, body: UpdateUserDto): Promise<User> {
+  async updateUserInfo(user: UserNoin, body: UpdateUserDto): Promise<UserNoin> {
     const { name, password, email } = body;
     if (name) user.name = name;
     if (password) user.password = password;
@@ -45,7 +45,7 @@ export class UserService {
     return user;
   }
 
-  async deleteAccount(user: User): Promise<void> {
+  async deleteAccount(user: UserNoin): Promise<void> {
     await this.userRepository.delete(user);
   }
 }

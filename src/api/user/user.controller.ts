@@ -11,7 +11,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UpdateUserDto } from './user.dto';
-import { User } from './user.entity';
+import { UserNoin } from './user.entity';
 import { UserService } from './user.service';
 
 @ApiTags('User')
@@ -22,7 +22,7 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Get()
-    async getUserInfo(@Req() request: Request): Promise<User> {
+    async getUserInfo(@Req() request: Request): Promise<UserNoin> {
         return request.res.locals.user;
     }
 
@@ -30,15 +30,15 @@ export class UserController {
     async updateUserProfile(
         @Req() request: Request,
         @Body() body: UpdateUserDto,
-    ): Promise<User> {
-        const user: User = request.res.locals.user;
-        const newUserInfo: User = await this.userService.updateUserInfo(user, body);
+    ): Promise<UserNoin> {
+        const user: UserNoin = request.res.locals.user;
+        const newUserInfo: UserNoin = await this.userService.updateUserInfo(user, body);
         return newUserInfo;
     }
 
     @Delete()
     async deleteAccount(@Req() request: Request): Promise<void> {
-        const user: User = request.res.locals.user;
+        const user: UserNoin = request.res.locals.user;
         await this.userService.deleteAccount(user);
     }
 }
