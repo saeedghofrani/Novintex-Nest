@@ -47,6 +47,7 @@ export class UserService {
   }
 
   async deleteAccount(user: UserNoin): Promise<void> {
-    await this.userRepository.delete(user);
+    await this.userRepository.delete({id : user.id});    
+
   }
 }

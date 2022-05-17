@@ -37,8 +37,9 @@ export class UserController {
     }
 
     @Delete()
-    async deleteAccount(@Req() request: Request): Promise<void> {
+    async deleteAccount(@Req() request: Request): Promise<string> {
         const user: UserNoin = request.res.locals.user;
         await this.userService.deleteAccount(user);
+        return 'done';
     }
 }
