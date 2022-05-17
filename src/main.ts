@@ -4,11 +4,14 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+// import * as helmet from 'helmet';
 
 async function bootstrap() {
   const app: NestExpressApplication = await NestFactory.create(AppModule);
   const config: ConfigService = app.get(ConfigService);
   const port: number = config.get<number>('PORT');
+
+  // app.use(helmet());
 
   const configSwagger = new DocumentBuilder()
     .addBearerAuth({ type: 'http', scheme: 'bearer' }, 'access-token')
