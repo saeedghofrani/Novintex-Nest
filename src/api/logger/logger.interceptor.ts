@@ -1,12 +1,27 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-  Logger,
-} from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+// import {
+//   Injectable,
+//   NestInterceptor,
+//   ExecutionContext,
+//   CallHandler,
+//   Logger,
+// } from '@nestjs/common';
+// import { Observable } from 'rxjs';
+// import { tap } from 'rxjs/operators';
+
+import { Logger, NestInterceptor, ExecutionContext, CallHandler, Injectable } from "@nestjs/common";
+import { Observable } from "rxjs";
+
+// export class LoggingInterceptor implements NestInterceptor {
+//   private logger = new Logger('GRPC');
+//   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+//     const controller = context.getClass().name;
+//     const method = context.getHandler().name;
+
+//     this.logger.log(`${controller} ${method} ${args} ${userAgent}`);
+
+//     return next.handle();
+//   }
+// }
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
