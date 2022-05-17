@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { Exclude } from 'class-transformer';
 
 @Entity()
-export class User {
+export class UserNoin {
     @PrimaryGeneratedColumn()
     public id!: number;
 
@@ -13,6 +13,7 @@ export class User {
     public email: string;
 
     @Exclude({ toPlainOnly: true })
+    @Column({ type: 'varchar', length: 120 })
     password: string;
 
     /*
@@ -25,7 +26,7 @@ export class User {
     @UpdateDateColumn({ type: 'timestamp' })
     public updatedAt!: Date;
 
-    constructor(partial: Partial<User>) {
+    constructor(partial: Partial<UserNoin>) {
         Object.assign(this, partial);
     }
 }
