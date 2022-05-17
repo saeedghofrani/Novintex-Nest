@@ -52,12 +52,8 @@ export class AuthController {
     async login(@Body() body: LoginDto): Promise<{ token: string }> {
         const user = await this.userService.findOneUser(null, body.name);
         if (!user) throw new NotFoundException('User not found');
-        //user.password !== body.password, 
-        console.log(comparePassword(body.password, user.password));
         if (!comparePassword(body.password, user.password))
             throw new NotFoundException('User not found');
-        // if (user.password !== body.password)
-        // throw new NotFoundException('User not found');
         const token: string = await this.authService.login(user);
         return { token };
     }
