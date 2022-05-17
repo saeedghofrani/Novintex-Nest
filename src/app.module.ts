@@ -8,6 +8,8 @@ import { ApiModule } from './api/api.module';
 import { AuthorizationMiddleware } from './api/auth/auth.middleware';
 import { AuthModule } from './api/auth/auth.module';
 import { TaskModule } from './api/task/task.module';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -15,6 +17,10 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   imports: [
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
     ApiModule,
     UserModule,
     AuthModule,
@@ -22,7 +28,10 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
   ],
   controllers: [],
-  providers: [],
+  providers: [{
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
+  },],
 })
 
 export class AppModule implements NestModule {
