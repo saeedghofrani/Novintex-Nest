@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Task } from '../task/task.entity';
+import { Role } from './enums/role.enum';
 
 @Entity()
 export class UserNoin {
@@ -30,6 +31,14 @@ export class UserNoin {
 
     @OneToMany((type) => Task, (task) => task.user)
     tasks: Task[];
+
+
+    @Column({
+        type: 'enum',
+        enum: Role,
+        default: Role.regular,
+    })
+    roles: Role[];
 
     constructor(partial: Partial<UserNoin>) {
         Object.assign(this, partial);
