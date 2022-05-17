@@ -7,6 +7,7 @@ import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { ApiModule } from './api/api.module';
 import { AuthorizationMiddleware } from './api/auth/auth.middleware';
 import { AuthModule } from './api/auth/auth.module';
+import { TaskModule } from './api/task/task.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -17,6 +18,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     ApiModule,
     UserModule,
     AuthModule,
+    TaskModule
 
   ],
   controllers: [],
@@ -26,7 +28,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthorizationMiddleware).forRoutes('user');
-    // consumer.apply(AuthorizationMiddleware).forRoutes('task');
+    consumer.apply(AuthorizationMiddleware).forRoutes('task');
     consumer.apply(AuthorizationMiddleware).forRoutes('auth/logout');
   }
 }
