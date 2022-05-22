@@ -2,7 +2,6 @@ import { Repository } from 'typeorm';
 import { TaskController } from './task.controller';
 import { Task } from './task.entity';
 import { TaskService } from './task.service';
-import * as httpMocks from 'node-mocks-http';
 import { UserNoin } from 'src/api/user/user.entity';
 
 describe('TaskController', () => {
@@ -32,11 +31,6 @@ describe('TaskController', () => {
       updatedAt: new Date(2022-0o5-18)
     };
     req.res.locals.user = user;
-
-    // // mock
-    // taskService.getAllTasks = jest
-    //   .fn()
-    //   .mockImplementation((): Task[] => result);
 
     // spy
     const getAllUserTasksSpy = jest

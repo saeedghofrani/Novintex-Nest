@@ -40,7 +40,7 @@ describe('AppController (e2e)', () => {
       expect.objectContaining({
         token: expect.any(String),
       }),
-    );
+    ); 
   });
 
   afterAll(async () => {
