@@ -62,3 +62,5 @@ $ npm run test:cov
 [NestJS]: <https://docs.nestjs.com/>
 [PostgreSQL]: <https://www.postgresql.org/>
 [this repository]: <https://github.com/alifakoor/huma_practice.git>
+
+[i need]: https://www.section.io/engineering-education/telegram-bot-in-nodejs/|||||https://www.npmjs.com/package/telegraf|||||https://github.com/telegraf/telegraf/blob/v4/docs/examples/shop-bot.js||||||https://github.com/calebroHQ/telegram-chatbot-for-a--restaraunt/blob/main/bot.js|||||||https://stackoverflow.com/questions/66981571/how-to-sent-mail-from-nestjs-using-nodemailer
